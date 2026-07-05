@@ -2,6 +2,7 @@
   --background: #101114;
   --foreground: #f5f7fa;
   --title-size: 36px;
+  --count-size: 52vw;
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-right: env(safe-area-inset-right, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
@@ -70,7 +71,7 @@ button {
   display: grid;
   place-items: center;
   padding: 12vh 4vw 10vh;
-  font-size: min(52vw, 38vh);
+  font-size: min(var(--count-size), 38vh);
   font-weight: 800;
   line-height: 0.85;
   letter-spacing: -0.07em;
@@ -260,10 +261,6 @@ button {
 @media (max-height: 620px) {
   .title-text {
     top: calc(var(--safe-top) + 16px);
-  }
-
-  .count-value {
-    font-size: min(46vw, 34vh);
   }
 
   .corner-button {
