@@ -7,6 +7,7 @@
     count: 0,
     title: "BIG DREAM",
     titleSize: 36,
+    countSize: 52,
     backgroundColor: "#101114",
     textColor: "#f5f7fa"
   };
@@ -22,6 +23,8 @@
     titleInput: document.getElementById("titleInput"),
     titleSizeInput: document.getElementById("titleSizeInput"),
     titleSizeLabel: document.getElementById("titleSizeLabel"),
+    countSizeInput: document.getElementById("countSizeInput"),
+    countSizeLabel: document.getElementById("countSizeLabel"),
     backgroundColorInput: document.getElementById("backgroundColorInput"),
     textColorInput: document.getElementById("textColorInput"),
     resetButton: document.getElementById("resetButton"),
@@ -50,8 +53,25 @@
     }
   }
 
-  function render() {
+  function applyCountSize() {
+    const digits = String(state.count).length;
+    let factor = 1;
+
+    if (digits === 3) factor = 0.82;
+    if (digits === 4) factor = 0.66;
+    if (digits >= 5) factor = 0.54;
+
+    const effectiveSize = state.countSize * factor;
+    document.documentElement.style.setProperty("--count-size", `${effectiveSize}vw`);
+  }
+
+  function renderCount() {
     elements.count.textContent = String(state.count);
+    applyCountSize();
+  }
+
+  function render() {
+    renderCount();
     elements.title.textContent = state.title || " ";
     document.documentElement.style.setProperty("--background", state.backgroundColor);
     document.documentElement.style.setProperty("--foreground", state.textColor);
@@ -60,13 +80,15 @@
     elements.titleInput.value = state.title;
     elements.titleSizeInput.value = String(state.titleSize);
     elements.titleSizeLabel.textContent = `${state.titleSize}px`;
+    elements.countSizeInput.value = String(state.countSize);
+    elements.countSizeLabel.textContent = String(state.countSize);
     elements.backgroundColorInput.value = state.backgroundColor;
     elements.textColorInput.value = state.textColor;
   }
 
   function changeCount(delta) {
     state.count = Math.max(0, state.count + delta);
-    elements.count.textContent = String(state.count);
+    renderCount();
     saveState();
   }
 
@@ -121,6 +143,13 @@
     saveState();
   });
 
+  elements.countSizeInput.addEventListener("input", (event) => {
+    state.countSize = Number(event.target.value);
+    elements.countSizeLabel.textContent = String(state.countSize);
+    applyCountSize();
+    saveState();
+  });
+
   elements.backgroundColorInput.addEventListener("input", (event) => {
     state.backgroundColor = event.target.value;
     document.documentElement.style.setProperty("--background", state.backgroundColor);
@@ -139,7 +168,7 @@
   elements.confirmReset.addEventListener("click", () => {
     state.count = 0;
     saveState();
-    elements.count.textContent = "0";
+    renderCount();
     closeResetConfirm();
     closeSettings();
   });
