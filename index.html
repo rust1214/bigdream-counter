@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
+  <meta name="theme-color" content="#101114">
+  <title>Big Dream Counter</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main id="counterSurface" class="counter-surface" aria-label="カウンター画面">
+    <div id="titleText" class="title-text">BIG DREAM</div>
+
+    <div id="countValue" class="count-value" aria-live="polite">0</div>
+
+    <button id="minusButton" class="corner-button minus-button" type="button" data-no-increment aria-label="1減らす">−1</button>
+    <button id="settingsButton" class="corner-button settings-button" type="button" data-no-increment aria-label="設定を開く">⚙</button>
+  </main>
+
+  <div id="settingsOverlay" class="overlay" hidden data-no-increment>
+    <section class="sheet" role="dialog" aria-modal="true" aria-labelledby="settingsHeading">
+      <div class="sheet-header">
+        <h1 id="settingsHeading">設定</h1>
+        <button id="closeSettingsButton" class="icon-button" type="button" aria-label="設定を閉じる">×</button>
+      </div>
+
+      <label class="setting-group">
+        <span>上の文字</span>
+        <input id="titleInput" type="text" maxlength="40" autocomplete="off" placeholder="BIG DREAM">
+      </label>
+
+      <label class="setting-group">
+        <span>文字サイズ <strong id="titleSizeLabel">36px</strong></span>
+        <input id="titleSizeInput" type="range" min="20" max="72" step="1" value="36">
+      </label>
+
+      <div class="color-row">
+        <label class="setting-group color-setting">
+          <span>背景色</span>
+          <input id="backgroundColorInput" type="color" value="#101114">
+        </label>
+
+        <label class="setting-group color-setting">
+          <span>文字色</span>
+          <input id="textColorInput" type="color" value="#f5f7fa">
+        </label>
+      </div>
+
+      <button id="resetButton" class="danger-button" type="button">カウントをリセット</button>
+    </section>
+  </div>
+
+  <div id="resetOverlay" class="overlay confirm-overlay" hidden data-no-increment>
+    <section class="confirm-card" role="alertdialog" aria-modal="true" aria-labelledby="resetHeading" aria-describedby="resetDescription">
+      <h2 id="resetHeading">リセットしますか？</h2>
+      <p id="resetDescription">現在のカウント <strong id="resetCurrentValue">0</strong> を 0 に戻します。</p>
+      <div class="confirm-actions">
+        <button id="cancelResetButton" class="secondary-button" type="button">キャンセル</button>
+        <button id="confirmResetButton" class="danger-button compact" type="button">0にする</button>
+      </div>
+    </section>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
