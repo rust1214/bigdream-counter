@@ -1,287 +1,31 @@
 <!doctype html>
 <html lang="ja">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no" />
-<meta name="theme-color" content="#090c12" />
-<title>スロット差枚カウンター</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#090c12">
+<title>6.5号機・スマスロ 有利区間目安ツール</title>
 <style>
-:root{--bg:#080b10;--panel:#111722;--panel2:#171e2a;--line:rgba(255,255,255,.11);--text:#f4f7fb;--muted:#94a0b3;--accent:#59e1c7;--accent2:#f2c14e;--danger:#ff6b76;--shadow:0 18px 50px rgba(0,0,0,.35)}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",sans-serif}body{background:radial-gradient(circle at 50% -20%,rgba(89,225,199,.14),transparent 42%),linear-gradient(180deg,#0d1118 0%,#07090e 100%)}button,input{font:inherit}button{color:inherit}.app{width:min(100%,520px);min-height:100dvh;margin:0 auto;padding:calc(14px + env(safe-area-inset-top)) 14px calc(24px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:12px}.topbar{display:flex;align-items:center;justify-content:space-between;min-height:42px}.title{margin:0;font-size:18px;font-weight:900;letter-spacing:.02em}.subtitle{font-size:11px;color:var(--muted);margin-top:2px}.icon-btn{width:42px;height:42px;border:1px solid var(--line);background:rgba(255,255,255,.035);border-radius:14px;display:grid;place-items:center;cursor:pointer}
-.hero{position:relative;overflow:hidden;border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.025));border-radius:24px;padding:22px 18px 18px;box-shadow:var(--shadow)}.hero:after{content:"";position:absolute;inset:auto -25% -60% -25%;height:180px;background:radial-gradient(circle,rgba(89,225,199,.15),transparent 68%);pointer-events:none}.hero-label{text-align:center;color:var(--muted);font-size:14px;font-weight:800;letter-spacing:.08em}.remaining{text-align:center;margin:8px 0 4px;font-size:clamp(44px,12vw,68px);font-weight:950;line-height:1.05;letter-spacing:-.045em;font-variant-numeric:tabular-nums}.approx{font-size:.4em;font-weight:850;vertical-align:.32em;margin-right:.14em;letter-spacing:0;color:var(--accent2)}.unit{font-size:.32em;font-weight:850;margin-left:.12em;letter-spacing:0}.hero-note{text-align:center;font-size:12px;color:var(--muted);margin-bottom:16px}.meter{height:10px;border-radius:999px;background:#080b10;overflow:hidden;border:1px solid rgba(255,255,255,.06)}.meter-fill{height:100%;width:0;border-radius:inherit;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .25s ease}.stats{margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{text-align:center;padding:10px 8px;border-radius:14px;background:rgba(0,0,0,.2);border:1px solid rgba(255,255,255,.06)}.stat-label{font-size:11px;color:var(--muted);margin-bottom:4px}.stat-value{font-weight:900;font-variant-numeric:tabular-nums}
-.card{border:1px solid var(--line);background:var(--panel);border-radius:20px;padding:14px}.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}.section-title{font-size:13px;color:var(--muted);font-weight:850}.investment-total{font-size:20px;font-weight:950;font-variant-numeric:tabular-nums}.invest-btn{width:100%;min-height:76px;border:0;border-radius:18px;background:linear-gradient(180deg,#64ead0,#3bc9ae);color:#062019;font-size:26px;font-weight:950;cursor:pointer;box-shadow:0 10px 30px rgba(59,201,174,.22)}.invest-btn:active,.action-card:active,.secondary-btn:active{transform:scale(.985)}.minor-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}.secondary-btn{min-height:48px;border-radius:14px;border:1px solid var(--line);background:var(--panel2);font-weight:850;cursor:pointer}.secondary-btn:disabled{opacity:.35;cursor:default}.action-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.action-card{min-height:108px;border:1px solid var(--line);background:var(--panel);border-radius:20px;padding:14px;text-align:left;cursor:pointer;display:flex;flex-direction:column;justify-content:space-between}.action-icon{font-size:24px}.action-title{font-size:15px;font-weight:900}.action-sub{font-size:11px;color:var(--muted);line-height:1.45}.complete-card{border:1px solid rgba(242,193,78,.24);background:linear-gradient(180deg,rgba(242,193,78,.07),rgba(255,255,255,.02));border-radius:20px;padding:14px}.complete-main{display:flex;align-items:end;justify-content:space-between;gap:12px}.complete-label{font-size:12px;color:var(--muted);font-weight:800}.complete-value{font-size:27px;font-weight:950;font-variant-numeric:tabular-nums}.complete-progress{font-size:12px;color:var(--muted);text-align:right;line-height:1.5}.hint{font-size:11px;color:var(--muted);line-height:1.65;padding:0 4px}.link-btn{border:0;background:none;padding:3px 0;color:var(--accent);font-weight:800;cursor:pointer}
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(8px);display:flex;align-items:flex-end;justify-content:center;padding:12px;z-index:20}.overlay[hidden]{display:none}.sheet{width:min(100%,520px);max-height:88dvh;overflow:auto;background:#101620;border:1px solid var(--line);border-radius:24px 24px 18px 18px;padding:16px;box-shadow:0 30px 80px rgba(0,0,0,.55)}.sheet-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.sheet-title{font-size:18px;font-weight:950}.close-btn{width:40px;height:40px;border:1px solid var(--line);border-radius:13px;background:var(--panel2);font-size:22px}.field{margin-bottom:13px}.field label{display:block;font-size:12px;color:var(--muted);font-weight:800;margin-bottom:7px}.input-wrap{display:flex;align-items:center;background:#0a0e14;border:1px solid var(--line);border-radius:14px;padding:0 12px}.input-wrap input{width:100%;min-height:52px;border:0;outline:none;background:transparent;color:var(--text);font-size:20px;font-weight:900;font-variant-numeric:tabular-nums}.suffix{color:var(--muted);font-size:13px;font-weight:800;white-space:nowrap}.primary-modal{width:100%;min-height:54px;border:0;border-radius:15px;background:var(--accent);color:#062019;font-weight:950;font-size:16px;margin-top:6px}.danger-btn{width:100%;min-height:50px;border:1px solid rgba(255,107,118,.4);border-radius:15px;background:rgba(255,107,118,.1);color:#ff939c;font-weight:900;margin-top:8px}.cut-btn{width:100%;min-height:52px;border:1px solid rgba(242,193,78,.4);border-radius:15px;background:rgba(242,193,78,.09);color:#f6d77d;font-weight:900;margin-top:8px}.toggle-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-top:1px solid var(--line);font-size:13px;font-weight:850}.switch{width:48px;height:28px;border-radius:999px;background:#2a313d;position:relative;cursor:pointer;border:0}.switch:after{content:"";position:absolute;width:22px;height:22px;left:3px;top:3px;border-radius:50%;background:white;transition:.2s}.switch.on{background:var(--accent)}.switch.on:after{left:23px}.modal-note{font-size:11px;color:var(--muted);line-height:1.6;margin-top:10px}.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(20px);background:#eef7f5;color:#0b1b18;padding:10px 14px;border-radius:999px;font-size:13px;font-weight:900;opacity:0;pointer-events:none;transition:.22s;z-index:40;white-space:nowrap}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-@media(max-width:360px){.app{padding-left:10px;padding-right:10px}.remaining{font-size:43px}.action-title{font-size:14px}}
+:root{--bg:#080b10;--panel:#111722;--panel2:#171e2a;--line:rgba(255,255,255,.11);--text:#f4f7fb;--muted:#94a0b3;--accent:#59e1c7;--gold:#f2c14e;--danger:#ff6b76}*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",sans-serif}body{background:radial-gradient(circle at 50% -20%,rgba(89,225,199,.14),transparent 42%),linear-gradient(180deg,#0d1118,#07090e)}button,input{font:inherit}button{color:inherit}.app{width:min(100%,520px);height:100dvh;margin:auto;padding:calc(8px + env(safe-area-inset-top)) 10px calc(8px + env(safe-area-inset-bottom));display:grid;grid-template-rows:auto minmax(165px,1fr) auto auto auto auto;gap:7px;overflow:hidden}.topbar{display:flex;align-items:center;justify-content:space-between;min-height:38px}.title{margin:0;font-size:16px;font-weight:950;line-height:1.2}.subtitle{margin-top:2px;font-size:10px;color:var(--muted)}.icon-btn{width:38px;height:38px;border:1px solid var(--line);background:rgba(255,255,255,.04);border-radius:12px;display:grid;place-items:center;cursor:pointer;flex:none}.hero{position:relative;overflow:hidden;border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.025));border-radius:20px;padding:12px 14px;display:flex;flex-direction:column;justify-content:center}.hero-label{text-align:center;color:var(--muted);font-size:12px;font-weight:900;letter-spacing:.08em}.remaining{text-align:center;margin:3px 0 2px;font-size:clamp(40px,11vw,60px);font-weight:950;line-height:1;letter-spacing:-.045em;font-variant-numeric:tabular-nums}.approx{font-size:.4em;font-weight:900;vertical-align:.3em;margin-right:.12em;color:var(--gold);letter-spacing:0}.unit{font-size:.32em;font-weight:900;margin-left:.1em;letter-spacing:0}.hero-note{text-align:center;font-size:10px;color:var(--muted);margin:2px 0 8px}.meter{height:7px;border-radius:999px;background:#080b10;overflow:hidden;border:1px solid rgba(255,255,255,.06)}.meter-fill{height:100%;width:0;border-radius:inherit;background:linear-gradient(90deg,var(--accent),var(--gold));transition:width .2s}.stats{margin-top:8px;display:grid;grid-template-columns:1fr 1fr;gap:7px}.stat{text-align:center;padding:6px;border-radius:11px;background:rgba(0,0,0,.2);border:1px solid rgba(255,255,255,.06)}.stat-label{font-size:9px;color:var(--muted);margin-bottom:2px}.stat-value{font-size:14px;font-weight:950;font-variant-numeric:tabular-nums}.card{border:1px solid var(--line);background:var(--panel);border-radius:16px;padding:8px}.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}.section-title{font-size:11px;color:var(--muted);font-weight:900}.investment-total{font-size:17px;font-weight:950;font-variant-numeric:tabular-nums}.invest-btn{width:100%;height:54px;border:0;border-radius:14px;background:linear-gradient(180deg,#64ead0,#3bc9ae);color:#062019;font-size:22px;font-weight:950;cursor:pointer}.minor-row{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:6px}.secondary-btn{height:34px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);font-size:12px;font-weight:850;cursor:pointer}.secondary-btn:disabled{opacity:.35}.action-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}.action-card{height:72px;border:1px solid var(--line);background:var(--panel);border-radius:15px;padding:8px 10px;text-align:left;cursor:pointer;display:grid;grid-template-columns:auto 1fr;align-items:center;gap:8px}.action-icon{font-size:21px}.action-title{font-size:13px;font-weight:950;line-height:1.25}.action-sub{font-size:9px;color:var(--muted);line-height:1.3;margin-top:2px}.complete-card{border:1px solid rgba(242,193,78,.24);background:linear-gradient(180deg,rgba(242,193,78,.07),rgba(255,255,255,.02));border-radius:15px;padding:8px 10px}.complete-main{display:flex;align-items:center;justify-content:space-between;gap:8px}.complete-label{font-size:10px;color:var(--muted);font-weight:850}.complete-value{font-size:21px;font-weight:950;font-variant-numeric:tabular-nums}.complete-progress{font-size:10px;color:var(--muted);text-align:right;line-height:1.35}.hint{font-size:9px;color:var(--muted);line-height:1.25;padding:0 2px;display:flex;align-items:center;justify-content:space-between;gap:8px}.link-btn{border:0;background:none;padding:2px 0;color:var(--accent);font-size:10px;font-weight:850;cursor:pointer;white-space:nowrap}.invest-btn:active,.action-card:active,.secondary-btn:active{transform:scale(.985)}.overlay{position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(8px);display:flex;align-items:flex-end;justify-content:center;padding:10px;z-index:20}.overlay[hidden]{display:none}.sheet{width:min(100%,520px);max-height:88dvh;overflow:auto;background:#101620;border:1px solid var(--line);border-radius:22px 22px 16px 16px;padding:14px;box-shadow:0 30px 80px rgba(0,0,0,.55)}.sheet-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.sheet-title{font-size:17px;font-weight:950}.close-btn{width:38px;height:38px;border:1px solid var(--line);border-radius:12px;background:var(--panel2);font-size:21px}.field{margin-bottom:11px}.field label{display:block;font-size:11px;color:var(--muted);font-weight:850;margin-bottom:6px}.input-wrap{display:flex;align-items:center;background:#0a0e14;border:1px solid var(--line);border-radius:13px;padding:0 11px}.input-wrap input{width:100%;height:48px;border:0;outline:none;background:transparent;color:var(--text);font-size:19px;font-weight:900}.suffix{color:var(--muted);font-size:12px;font-weight:800;white-space:nowrap}.primary-modal,.cut-btn,.danger-btn{width:100%;min-height:50px;border-radius:14px;font-weight:950}.primary-modal{border:0;background:var(--accent);color:#062019}.cut-btn{border:1px solid rgba(242,193,78,.4);background:rgba(242,193,78,.09);color:#f6d77d;margin-top:8px}.danger-btn{border:1px solid rgba(255,107,118,.4);background:rgba(255,107,118,.1);color:#ff939c;margin-top:8px}.toggle-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-top:1px solid var(--line);font-size:12px;font-weight:850}.switch{width:46px;height:27px;border-radius:999px;background:#2a313d;position:relative;border:0}.switch:after{content:"";position:absolute;width:21px;height:21px;left:3px;top:3px;border-radius:50%;background:white;transition:.2s}.switch.on{background:var(--accent)}.switch.on:after{left:22px}.modal-note{font-size:10px;color:var(--muted);line-height:1.55;margin-top:8px}.toast{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(16px);background:#eef7f5;color:#0b1b18;padding:9px 13px;border-radius:999px;font-size:12px;font-weight:900;opacity:0;pointer-events:none;transition:.2s;z-index:40;white-space:nowrap}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}@media(max-height:690px){.app{gap:5px;padding-top:calc(5px + env(safe-area-inset-top));padding-bottom:calc(5px + env(safe-area-inset-bottom));grid-template-rows:auto minmax(145px,1fr) auto auto auto auto}.topbar{min-height:34px}.icon-btn{width:34px;height:34px}.title{font-size:14px}.subtitle{display:none}.hero{padding:8px 12px}.remaining{font-size:40px}.hero-note{margin-bottom:5px}.stats{margin-top:5px}.stat{padding:4px}.invest-btn{height:47px;font-size:20px}.secondary-btn{height:30px}.action-card{height:60px}.action-sub{display:none}.complete-card{padding:6px 9px}.complete-value{font-size:18px}.hint>span{display:none}.hint{justify-content:center}}@media(max-height:590px){.hero-note{display:none}.action-card{height:52px}.complete-progress{display:none}.stats{gap:4px}.stat-value{font-size:12px}}
 </style>
 </head>
 <body>
 <main class="app">
-  <header class="topbar">
-    <div><h1 class="title">スロット差枚カウンター</h1><div class="subtitle">投資を押すだけ。分からなくなったら持ち枚で修正。</div></div>
-    <button class="icon-btn" id="settingsBtn" aria-label="設定">⚙</button>
-  </header>
-
-  <section class="hero">
-    <div class="hero-label">次の目安まで</div>
-    <div class="remaining" id="remainingDisplay"><span class="approx">約</span>2,400<span class="unit">枚</span></div>
-    <div class="hero-note" id="heroNote">2400枚ごとの目安を自動で繰り上げます</div>
-    <div class="meter"><div class="meter-fill" id="meterFill"></div></div>
-    <div class="stats">
-      <div class="stat"><div class="stat-label">現在推定差枚</div><div class="stat-value" id="netDisplay">約 0枚</div></div>
-      <div class="stat"><div class="stat-label">次の累積目安</div><div class="stat-value" id="targetDisplay">約 2,400枚</div></div>
-    </div>
-  </section>
-
-  <section class="card">
-    <div class="section-head"><div class="section-title">投資</div><div class="investment-total" id="investmentDisplay">0円</div></div>
-    <button class="invest-btn" id="investBtn">＋1,000円</button>
-    <div class="minor-row">
-      <button class="secondary-btn" id="undoBtn">↶ 1操作戻す</button>
-      <button class="secondary-btn" id="editInvestmentBtn">投資額を修正</button>
-    </div>
-  </section>
-
-  <section class="action-grid">
-    <button class="action-card" id="rewardBtn"><div class="action-icon">🎰</div><div><div class="action-title">当たりで出た枚数</div><div class="action-sub">AT・ボーナス後の獲得枚数を反映</div></div></button>
-    <button class="action-card" id="holdBtn"><div class="action-icon">🪙</div><div><div class="action-title">今の持ち枚で修正</div><div class="action-sub">ズレた時に現在の持ち枚から再計算</div></div></button>
-  </section>
-
-  <section class="complete-card">
-    <div class="complete-main">
-      <div><div class="complete-label">コンプリートまで</div><div class="complete-value" id="completeRemaining">約 19,000枚</div></div>
-      <div class="complete-progress" id="completeProgress">MY推定<br>0枚</div>
-    </div>
-  </section>
-
-  <div class="hint">
-    このツールは簡易推定です。機種内部の有利区間切替を自動判定するものではありません。<br>
-    <button class="link-btn" id="cutHelpBtn">切れた地点が分かる時だけ補正する</button>
-  </div>
+<header class="topbar"><div><h1 class="title">6.5号機・スマスロ 有利区間目安ツール</h1><div class="subtitle">投資を押すだけ。分からなくなったら持ち枚で修正。</div></div><button class="icon-btn" id="settingsBtn" aria-label="設定">⚙</button></header>
+<section class="hero"><div class="hero-label">次の目安まで</div><div class="remaining" id="remainingDisplay"><span class="approx">約</span>2,400<span class="unit">枚</span></div><div class="hero-note" id="heroNote">2400枚ごとの目安を自動で繰り上げます</div><div class="meter"><div class="meter-fill" id="meterFill"></div></div><div class="stats"><div class="stat"><div class="stat-label">現在推定差枚</div><div class="stat-value" id="netDisplay">約 0枚</div></div><div class="stat"><div class="stat-label">次の累積目安</div><div class="stat-value" id="targetDisplay">約 2,400枚</div></div></div></section>
+<section class="card"><div class="section-head"><div class="section-title">投資</div><div class="investment-total" id="investmentDisplay">0円</div></div><button class="invest-btn" id="investBtn">＋1,000円</button><div class="minor-row"><button class="secondary-btn" id="undoBtn">↶ 1操作戻す</button><button class="secondary-btn" id="editInvestmentBtn">投資額を修正</button></div></section>
+<section class="action-grid"><button class="action-card" id="rewardBtn"><div class="action-icon">🎰</div><div><div class="action-title">当たりで出た枚数</div><div class="action-sub">AT・ボーナス後の獲得枚数を反映</div></div></button><button class="action-card" id="holdBtn"><div class="action-icon">🪙</div><div><div class="action-title">今の持ち枚で修正</div><div class="action-sub">ズレた時に現在の持ち枚から再計算</div></div></button></section>
+<section class="complete-card"><div class="complete-main"><div><div class="complete-label">コンプリートまで</div><div class="complete-value" id="completeRemaining">約 19,000枚</div></div><div class="complete-progress" id="completeProgress">MY推定<br>0枚</div></div></section>
+<div class="hint"><span>簡易推定ツールです。内部の切断を自動判定するものではありません。</span><button class="link-btn" id="cutHelpBtn">切れた地点で補正</button></div>
 </main>
-
-<div class="overlay" id="rewardOverlay" hidden>
-  <section class="sheet">
-    <div class="sheet-head"><div class="sheet-title">当たりで出た枚数</div><button class="close-btn" data-close="rewardOverlay">×</button></div>
-    <div class="field"><label>獲得枚数</label><div class="input-wrap"><input id="rewardInput" type="number" inputmode="numeric" min="0" step="1" placeholder="例 1850"><span class="suffix">枚</span></div></div>
-    <button class="primary-modal" id="applyRewardBtn">この枚数を反映</button>
-    <div class="modal-note">表示された獲得枚数を入れてください。あとで「今の持ち枚で修正」を使うと、その時点の状態に合わせて再計算できます。</div>
-  </section>
-</div>
-
-<div class="overlay" id="holdOverlay" hidden>
-  <section class="sheet">
-    <div class="sheet-head"><div class="sheet-title">今の持ち枚で修正</div><button class="close-btn" data-close="holdOverlay">×</button></div>
-    <div class="field"><label>現在の持ち枚</label><div class="input-wrap"><input id="holdInput" type="number" inputmode="numeric" min="0" step="1" placeholder="例 2350"><span class="suffix">枚</span></div></div>
-    <button class="primary-modal" id="applyHoldBtn">現在値から再計算</button>
-    <div class="modal-note">開始時の持ち枚と、これまでの貸出枚数を使って推定差枚を補正します。別の台の持ち枚を混ぜた場合は目安がズレます。</div>
-  </section>
-</div>
-
-<div class="overlay" id="investmentOverlay" hidden>
-  <section class="sheet">
-    <div class="sheet-head"><div class="sheet-title">投資額を修正</div><button class="close-btn" data-close="investmentOverlay">×</button></div>
-    <div class="field"><label>現在までの投資額</label><div class="input-wrap"><input id="investmentInput" type="number" inputmode="numeric" min="0" step="1000"><span class="suffix">円</span></div></div>
-    <button class="primary-modal" id="applyInvestmentBtn">投資額を更新</button>
-  </section>
-</div>
-
-<div class="overlay" id="cutOverlay" hidden>
-  <section class="sheet">
-    <div class="sheet-head"><div class="sheet-title">区間の目安を補正</div><button class="close-btn" data-close="cutOverlay">×</button></div>
-    <div class="modal-note">実際に有利区間が切れた地点が分かる場合だけ使います。現在の推定差枚を新しい基準点として、次の目安を「ここから＋設定枚数」に引き直します。分からない場合は使わなくて大丈夫です。</div>
-    <button class="cut-btn" id="markCutBtn">ここを新しい基準点にする</button>
-  </section>
-</div>
-
-<div class="overlay" id="settingsOverlay" hidden>
-  <section class="sheet">
-    <div class="sheet-head"><div class="sheet-title">設定</div><button class="close-btn" data-close="settingsOverlay">×</button></div>
-    <div class="field"><label>貸し枚数（1000円あたり）</label><div class="input-wrap"><input id="lendRateInput" type="number" inputmode="decimal" min="1" step="0.1"><span class="suffix">枚</span></div></div>
-    <div class="field"><label>投資ボタン</label><div class="input-wrap"><input id="investUnitInput" type="number" inputmode="numeric" min="100" step="100"><span class="suffix">円 / 1タップ</span></div></div>
-    <div class="field"><label>次の目安</label><div class="input-wrap"><input id="thresholdInput" type="number" inputmode="numeric" min="1" step="1"><span class="suffix">枚</span></div></div>
-    <div class="field"><label>コンプリート基準</label><div class="input-wrap"><input id="completeInput" type="number" inputmode="numeric" min="1" step="100"><span class="suffix">枚</span></div></div>
-    <div class="field"><label>計測開始時の持ち枚</label><div class="input-wrap"><input id="startHoldInput" type="number" inputmode="numeric" min="0" step="1"><span class="suffix">枚</span></div></div>
-    <div class="toggle-row"><span>数字の前に「約」を表示</span><button class="switch on" id="approxSwitch" aria-label="約表示切替"></button></div>
-    <button class="primary-modal" id="saveSettingsBtn">設定を保存</button>
-    <button class="danger-btn" id="resetBtn">今日の記録をすべてリセット</button>
-    <div class="modal-note">初期値：46枚貸し / 1000円、目安2400枚、コンプリート19000枚。設定値は端末内に保存されます。</div>
-  </section>
-</div>
-
+<div class="overlay" id="rewardOverlay" hidden><section class="sheet"><div class="sheet-head"><div class="sheet-title">当たりで出た枚数</div><button class="close-btn" data-close="rewardOverlay">×</button></div><div class="field"><label>獲得枚数</label><div class="input-wrap"><input id="rewardInput" type="number" inputmode="numeric" min="0" step="1" placeholder="例 1850"><span class="suffix">枚</span></div></div><button class="primary-modal" id="applyRewardBtn">この枚数を反映</button><div class="modal-note">表示された獲得枚数を入力してください。あとで「今の持ち枚で修正」を使うと、その時点の状態に合わせて再計算できます。</div></section></div>
+<div class="overlay" id="holdOverlay" hidden><section class="sheet"><div class="sheet-head"><div class="sheet-title">今の持ち枚で修正</div><button class="close-btn" data-close="holdOverlay">×</button></div><div class="field"><label>現在の持ち枚</label><div class="input-wrap"><input id="holdInput" type="number" inputmode="numeric" min="0" step="1" placeholder="例 2350"><span class="suffix">枚</span></div></div><button class="primary-modal" id="applyHoldBtn">現在値から再計算</button><div class="modal-note">開始時の持ち枚と、これまでの貸出枚数を使って推定差枚を補正します。別の台の持ち枚を混ぜた場合は目安がズレます。</div></section></div>
+<div class="overlay" id="investmentOverlay" hidden><section class="sheet"><div class="sheet-head"><div class="sheet-title">投資額を修正</div><button class="close-btn" data-close="investmentOverlay">×</button></div><div class="field"><label>現在までの投資額</label><div class="input-wrap"><input id="investmentInput" type="number" inputmode="numeric" min="0" step="1000"><span class="suffix">円</span></div></div><button class="primary-modal" id="applyInvestmentBtn">投資額を更新</button></section></div>
+<div class="overlay" id="cutOverlay" hidden><section class="sheet"><div class="sheet-head"><div class="sheet-title">区間の目安を補正</div><button class="close-btn" data-close="cutOverlay">×</button></div><div class="modal-note">実際に有利区間が切れた地点が分かる場合だけ使います。現在の推定差枚を新しい基準点として、次の目安を「ここから＋設定枚数」に引き直します。分からない場合は使わなくて大丈夫です。</div><button class="cut-btn" id="markCutBtn">ここを新しい基準点にする</button></section></div>
+<div class="overlay" id="settingsOverlay" hidden><section class="sheet"><div class="sheet-head"><div class="sheet-title">設定</div><button class="close-btn" data-close="settingsOverlay">×</button></div><div class="field"><label>貸し枚数（1000円あたり）</label><div class="input-wrap"><input id="lendRateInput" type="number" inputmode="decimal" min="1" step="0.1"><span class="suffix">枚</span></div></div><div class="field"><label>投資ボタン</label><div class="input-wrap"><input id="investUnitInput" type="number" inputmode="numeric" min="100" step="100"><span class="suffix">円 / 1タップ</span></div></div><div class="field"><label>次の目安</label><div class="input-wrap"><input id="thresholdInput" type="number" inputmode="numeric" min="1" step="1"><span class="suffix">枚</span></div></div><div class="field"><label>コンプリート基準</label><div class="input-wrap"><input id="completeInput" type="number" inputmode="numeric" min="1" step="100"><span class="suffix">枚</span></div></div><div class="field"><label>計測開始時の持ち枚</label><div class="input-wrap"><input id="startHoldInput" type="number" inputmode="numeric" min="0" step="1"><span class="suffix">枚</span></div></div><div class="toggle-row"><span>数字の前に「約」を表示</span><button class="switch on" id="approxSwitch" aria-label="約表示切替"></button></div><button class="primary-modal" id="saveSettingsBtn">設定を保存</button><button class="danger-btn" id="resetBtn">今日の記録をすべてリセット</button><div class="modal-note">初期値：46枚貸し / 1000円、目安2400枚、コンプリート19000枚。設定値は端末内に保存されます。</div></section></div>
 <div class="toast" id="toast">反映しました</div>
-
 <script>
-(() => {
-  'use strict';
-  const $ = id => document.getElementById(id);
-  const STORAGE_KEY = 'slotDiffCounter_v3';
-  const defaultState = {
-    investmentYen: 0,
-    estimatedNet: 0,
-    minDayNet: 0,
-    sectionBaseNet: 0,
-    autoStepCount: 0,
-    manualCutCount: 0,
-    settings: { lendRate: 46, investUnit: 1000, threshold: 2400, complete: 19000, startHold: 0, showApprox: true },
-    history: []
-  };
-
-  function clone(v){ return JSON.parse(JSON.stringify(v)); }
-  function load(){
-    try {
-      const raw = JSON.parse(localStorage.getItem(STORAGE_KEY));
-      if (!raw || typeof raw !== 'object') return clone(defaultState);
-      return {
-        ...clone(defaultState), ...raw,
-        settings: {...defaultState.settings, ...(raw.settings || {})},
-        history: Array.isArray(raw.history) ? raw.history.slice(-50) : []
-      };
-    } catch { return clone(defaultState); }
-  }
-  let state = load();
-
-  function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
-  function fmt(n){ return Math.round(n).toLocaleString('ja-JP'); }
-  function approx(){ return state.settings.showApprox ? '<span class="approx">約</span>' : ''; }
-  function approxText(){ return state.settings.showApprox ? '約 ' : ''; }
-  function rentedCoinsFor(yen){ return (yen / 1000) * state.settings.lendRate; }
-  function targetNet(){ return state.sectionBaseNet + state.settings.threshold; }
-  function remaining(){ return targetNet() - state.estimatedNet; }
-  function completeProgress(){ return Math.max(0, state.estimatedNet - state.minDayNet); }
-  function completeRemaining(){ return Math.max(0, state.settings.complete - completeProgress()); }
-
-  function snapshot(label){
-    state.history.push({
-      label,
-      investmentYen: state.investmentYen,
-      estimatedNet: state.estimatedNet,
-      minDayNet: state.minDayNet,
-      sectionBaseNet: state.sectionBaseNet,
-      autoStepCount: state.autoStepCount,
-      manualCutCount: state.manualCutCount
-    });
-    if (state.history.length > 50) state.history.shift();
-  }
-
-  function normalizeAfterNetChange(){
-    if (state.estimatedNet < state.minDayNet) state.minDayNet = state.estimatedNet;
-    const th = state.settings.threshold;
-    if (!(th > 0)) return;
-    while (state.estimatedNet >= state.sectionBaseNet + th) {
-      state.sectionBaseNet += th;
-      state.autoStepCount += 1;
-    }
-  }
-
-  function render(){
-    const remRaw = remaining();
-    const rem = Math.max(0, Math.round(remRaw));
-    const target = targetNet();
-    const th = state.settings.threshold;
-    const progress = Math.max(0, Math.min(th, state.estimatedNet - state.sectionBaseNet));
-    const pct = th > 0 ? Math.max(0, Math.min(100, progress / th * 100)) : 0;
-
-    $('remainingDisplay').innerHTML = remRaw <= 0
-      ? `${approx()}0<span class="unit">枚</span>`
-      : `${approx()}${fmt(rem)}<span class="unit">枚</span>`;
-    $('netDisplay').textContent = `${approxText()}${state.estimatedNet >= 0 ? '+' : '−'}${fmt(Math.abs(state.estimatedNet))}枚`;
-    $('targetDisplay').textContent = `${approxText()}${fmt(target)}枚`;
-    $('meterFill').style.width = pct + '%';
-    $('investmentDisplay').textContent = fmt(state.investmentYen) + '円';
-    $('investBtn').textContent = `＋${fmt(state.settings.investUnit)}円`;
-    $('undoBtn').disabled = state.history.length === 0;
-    $('heroNote').textContent = state.manualCutCount > 0
-      ? `自動繰り上げ ${state.autoStepCount}回 ・ 手動補正 ${state.manualCutCount}回`
-      : `設定枚数ごとの目安を自動で繰り上げます`;
-    $('completeRemaining').textContent = `${approxText()}${fmt(completeRemaining())}枚`;
-    $('completeProgress').innerHTML = `MY推定<br>${fmt(completeProgress())}枚`;
-    $('approxSwitch').classList.toggle('on', state.settings.showApprox);
-    save();
-  }
-
-  function open(id){ $(id).hidden = false; }
-  function close(id){ $(id).hidden = true; }
-  document.querySelectorAll('[data-close]').forEach(btn => btn.addEventListener('click', () => close(btn.dataset.close)));
-  document.querySelectorAll('.overlay').forEach(ov => ov.addEventListener('click', e => { if (e.target === ov) ov.hidden = true; }));
-  function toast(msg){ const el=$('toast'); el.textContent=msg; el.classList.add('show'); clearTimeout(toast.t); toast.t=setTimeout(()=>el.classList.remove('show'),1500); }
-  function num(id){ const v = Number($(id).value); return Number.isFinite(v) ? v : NaN; }
-
-  $('investBtn').addEventListener('click', () => {
-    snapshot('投資を追加');
-    state.investmentYen += state.settings.investUnit;
-    state.estimatedNet -= rentedCoinsFor(state.settings.investUnit);
-    normalizeAfterNetChange(); render();
-  });
-
-  $('undoBtn').addEventListener('click', () => {
-    const prev = state.history.pop(); if (!prev) return;
-    Object.assign(state, prev); render(); toast('1操作戻しました');
-  });
-
-  $('rewardBtn').addEventListener('click', () => { $('rewardInput').value=''; open('rewardOverlay'); setTimeout(()=>$('rewardInput').focus(),50); });
-  $('applyRewardBtn').addEventListener('click', () => {
-    const v=num('rewardInput'); if (!(v>=0)) return alert('獲得枚数を入力してください');
-    snapshot('獲得枚数を反映'); state.estimatedNet += v; normalizeAfterNetChange(); close('rewardOverlay'); render(); toast('獲得枚数を反映しました');
-  });
-
-  $('holdBtn').addEventListener('click', () => { $('holdInput').value=''; open('holdOverlay'); setTimeout(()=>$('holdInput').focus(),50); });
-  $('applyHoldBtn').addEventListener('click', () => {
-    const hold=num('holdInput'); if (!(hold>=0)) return alert('現在の持ち枚を入力してください');
-    snapshot('持ち枚で補正');
-    const rented = rentedCoinsFor(state.investmentYen);
-    state.estimatedNet = hold - state.settings.startHold - rented;
-    normalizeAfterNetChange(); close('holdOverlay'); render(); toast('現在値で補正しました');
-  });
-
-  $('editInvestmentBtn').addEventListener('click', () => { $('investmentInput').value=state.investmentYen; open('investmentOverlay'); });
-  $('applyInvestmentBtn').addEventListener('click', () => {
-    const yen=num('investmentInput'); if (!(yen>=0)) return alert('投資額を入力してください');
-    snapshot('投資額を修正');
-    const deltaYen = yen - state.investmentYen;
-    state.investmentYen = yen;
-    state.estimatedNet -= rentedCoinsFor(deltaYen);
-    normalizeAfterNetChange(); close('investmentOverlay'); render(); toast('投資額を更新しました');
-  });
-
-  $('cutHelpBtn').addEventListener('click', () => open('cutOverlay'));
-  $('markCutBtn').addEventListener('click', () => {
-    if (!confirm('現在の推定差枚を、新しい区間の基準点にしますか？')) return;
-    snapshot('区間基準を補正');
-    state.sectionBaseNet = state.estimatedNet;
-    state.manualCutCount += 1;
-    close('cutOverlay'); render(); toast('次の目安を引き直しました');
-  });
-
-  $('settingsBtn').addEventListener('click', () => {
-    $('lendRateInput').value=state.settings.lendRate;
-    $('investUnitInput').value=state.settings.investUnit;
-    $('thresholdInput').value=state.settings.threshold;
-    $('completeInput').value=state.settings.complete;
-    $('startHoldInput').value=state.settings.startHold;
-    $('approxSwitch').classList.toggle('on', state.settings.showApprox);
-    open('settingsOverlay');
-  });
-  $('approxSwitch').addEventListener('click', () => { state.settings.showApprox=!state.settings.showApprox; $('approxSwitch').classList.toggle('on',state.settings.showApprox); });
-  $('saveSettingsBtn').addEventListener('click', () => {
-    const lend=num('lendRateInput'), unit=num('investUnitInput'), th=num('thresholdInput'), comp=num('completeInput'), start=num('startHoldInput');
-    if (!(lend>0&&unit>0&&th>0&&comp>0&&start>=0)) return alert('設定値を確認してください');
-    snapshot('設定変更');
-    state.settings.lendRate=lend;
-    state.settings.investUnit=Math.round(unit);
-    state.settings.threshold=Math.round(th);
-    state.settings.complete=Math.round(comp);
-    state.settings.startHold=Math.round(start);
-    normalizeAfterNetChange(); close('settingsOverlay'); render(); toast('設定を保存しました');
-  });
-
-  $('resetBtn').addEventListener('click', () => {
-    if (!confirm('今日の投資・差枚・目安・MY記録をすべて0に戻します。よろしいですか？')) return;
-    const settings=clone(state.settings);
-    state=clone(defaultState); state.settings=settings; save(); close('settingsOverlay'); render(); toast('今日の記録をリセットしました');
-  });
-
-  normalizeAfterNetChange(); render();
-})();
+(()=>{'use strict';const $=id=>document.getElementById(id),KEY='slotDiffCounter_v3';const def={investmentYen:0,estimatedNet:0,minDayNet:0,sectionBaseNet:0,autoStepCount:0,manualCutCount:0,settings:{lendRate:46,investUnit:1000,threshold:2400,complete:19000,startHold:0,showApprox:true},history:[]};const clone=v=>JSON.parse(JSON.stringify(v));function load(){try{const r=JSON.parse(localStorage.getItem(KEY));if(!r||typeof r!=='object')return clone(def);return{...clone(def),...r,settings:{...def.settings,...(r.settings||{})},history:Array.isArray(r.history)?r.history.slice(-50):[]}}catch{return clone(def)}}let s=load();const save=()=>localStorage.setItem(KEY,JSON.stringify(s)),fmt=n=>Math.round(n).toLocaleString('ja-JP'),approx=()=>s.settings.showApprox?'<span class="approx">約</span>':'',approxText=()=>s.settings.showApprox?'約 ':'',rented=yen=>(yen/1000)*s.settings.lendRate,target=()=>s.sectionBaseNet+s.settings.threshold,remain=()=>target()-s.estimatedNet,my=()=>Math.max(0,s.estimatedNet-s.minDayNet),compRemain=()=>Math.max(0,s.settings.complete-my());function snap(label){s.history.push({label,investmentYen:s.investmentYen,estimatedNet:s.estimatedNet,minDayNet:s.minDayNet,sectionBaseNet:s.sectionBaseNet,autoStepCount:s.autoStepCount,manualCutCount:s.manualCutCount});if(s.history.length>50)s.history.shift()}function normalize(){if(s.estimatedNet<s.minDayNet)s.minDayNet=s.estimatedNet;const th=s.settings.threshold;if(!(th>0))return;while(s.estimatedNet>=s.sectionBaseNet+th){s.sectionBaseNet+=th;s.autoStepCount++}}function render(){const raw=remain(),rem=Math.max(0,Math.round(raw)),t=target(),th=s.settings.threshold,progress=Math.max(0,Math.min(th,s.estimatedNet-s.sectionBaseNet)),pct=th>0?Math.max(0,Math.min(100,progress/th*100)):0;$('remainingDisplay').innerHTML=raw<=0?`${approx()}0<span class="unit">枚</span>`:`${approx()}${fmt(rem)}<span class="unit">枚</span>`;$('netDisplay').textContent=`${approxText()}${s.estimatedNet>=0?'+':'−'}${fmt(Math.abs(s.estimatedNet))}枚`;$('targetDisplay').textContent=`${approxText()}${fmt(t)}枚`;$('meterFill').style.width=pct+'%';$('investmentDisplay').textContent=fmt(s.investmentYen)+'円';$('investBtn').textContent=`＋${fmt(s.settings.investUnit)}円`;$('undoBtn').disabled=s.history.length===0;$('heroNote').textContent=s.manualCutCount>0?`自動繰り上げ ${s.autoStepCount}回 ・ 手動補正 ${s.manualCutCount}回`:`${fmt(s.settings.threshold)}枚ごとの目安を自動で繰り上げます`;$('completeRemaining').textContent=`${approxText()}${fmt(compRemain())}枚`;$('completeProgress').innerHTML=`MY推定<br>${fmt(my())}枚`;$('approxSwitch').classList.toggle('on',s.settings.showApprox);save()}const open=id=>$(id).hidden=false,close=id=>$(id).hidden=true;document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>close(b.dataset.close)));document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.hidden=true}));function toast(msg){const e=$('toast');e.textContent=msg;e.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('show'),1400)}const num=id=>{const v=Number($(id).value);return Number.isFinite(v)?v:NaN};$('investBtn').addEventListener('click',()=>{snap('投資を追加');s.investmentYen+=s.settings.investUnit;s.estimatedNet-=rented(s.settings.investUnit);normalize();render()});$('undoBtn').addEventListener('click',()=>{const p=s.history.pop();if(!p)return;Object.assign(s,p);render();toast('1操作戻しました')});$('rewardBtn').addEventListener('click',()=>{$('rewardInput').value='';open('rewardOverlay');setTimeout(()=>$('rewardInput').focus(),50)});$('applyRewardBtn').addEventListener('click',()=>{const v=num('rewardInput');if(!(v>=0))return alert('獲得枚数を入力してください');snap('獲得枚数を反映');s.estimatedNet+=v;normalize();close('rewardOverlay');render();toast('獲得枚数を反映しました')});$('holdBtn').addEventListener('click',()=>{$('holdInput').value='';open('holdOverlay');setTimeout(()=>$('holdInput').focus(),50)});$('applyHoldBtn').addEventListener('click',()=>{const h=num('holdInput');if(!(h>=0))return alert('現在の持ち枚を入力してください');snap('持ち枚で補正');s.estimatedNet=h-s.settings.startHold-rented(s.investmentYen);normalize();close('holdOverlay');render();toast('現在値で補正しました')});$('editInvestmentBtn').addEventListener('click',()=>{$('investmentInput').value=s.investmentYen;open('investmentOverlay')});$('applyInvestmentBtn').addEventListener('click',()=>{const y=num('investmentInput');if(!(y>=0))return alert('投資額を入力してください');snap('投資額を修正');const d=y-s.investmentYen;s.investmentYen=y;s.estimatedNet-=rented(d);normalize();close('investmentOverlay');render();toast('投資額を更新しました')});$('cutHelpBtn').addEventListener('click',()=>open('cutOverlay'));$('markCutBtn').addEventListener('click',()=>{if(!confirm('現在の推定差枚を、新しい区間の基準点にしますか？'))return;snap('区間基準を補正');s.sectionBaseNet=s.estimatedNet;s.manualCutCount++;close('cutOverlay');render();toast('次の目安を引き直しました')});$('settingsBtn').addEventListener('click',()=>{$('lendRateInput').value=s.settings.lendRate;$('investUnitInput').value=s.settings.investUnit;$('thresholdInput').value=s.settings.threshold;$('completeInput').value=s.settings.complete;$('startHoldInput').value=s.settings.startHold;$('approxSwitch').classList.toggle('on',s.settings.showApprox);open('settingsOverlay')});$('approxSwitch').addEventListener('click',()=>{s.settings.showApprox=!s.settings.showApprox;$('approxSwitch').classList.toggle('on',s.settings.showApprox)});$('saveSettingsBtn').addEventListener('click',()=>{const l=num('lendRateInput'),u=num('investUnitInput'),th=num('thresholdInput'),c=num('completeInput'),st=num('startHoldInput');if(!(l>0&&u>0&&th>0&&c>0&&st>=0))return alert('設定値を確認してください');snap('設定変更');s.settings.lendRate=l;s.settings.investUnit=Math.round(u);s.settings.threshold=Math.round(th);s.settings.complete=Math.round(c);s.settings.startHold=Math.round(st);normalize();close('settingsOverlay');render();toast('設定を保存しました')});$('resetBtn').addEventListener('click',()=>{if(!confirm('今日の投資・差枚・目安・MY記録をすべて0に戻します。よろしいですか？'))return;const settings=clone(s.settings);s=clone(def);s.settings=settings;save();close('settingsOverlay');render();toast('今日の記録をリセットしました')});normalize();render()})();
 </script>
 </body>
 </html>
