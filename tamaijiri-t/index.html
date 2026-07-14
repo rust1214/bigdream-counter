@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
   <meta name="theme-color" content="#0d1016">
   <title>玉いじりT</title>
-  <link rel="stylesheet" href="style.css?v=3">
+  <link rel="stylesheet" href="style-v4.css">
 </head>
 <body>
   <main class="app-shell">
@@ -76,10 +76,17 @@
   <div id="menuOverlay" class="overlay" hidden>
     <section class="sheet" role="dialog" aria-modal="true" aria-labelledby="menuTitle">
       <div class="sheet-head"><h2 id="menuTitle">メニュー</h2><button class="close-btn" data-close="menuOverlay">×</button></div>
-      <button id="reportButton" class="menu-action" type="button">実戦レポートを共有</button>
-      <button id="csvButton" class="menu-action" type="button">CSVを書き出す</button>
-      <button id="backupButton" class="menu-action" type="button">バックアップ（JSON）</button>
+      <p class="menu-lead">普段使う項目だけ上に置いています。</p>
+      <button id="reportButton" class="menu-action primary" type="button">実戦レポートを共有</button>
       <button id="resetButton" class="menu-action danger" type="button">現在の実戦をリセット</button>
+
+      <details class="advanced-tools">
+        <summary>詳細ツール</summary>
+        <div class="advanced-content">
+          <button id="csvButton" class="menu-action" type="button">CSVを書き出す</button>
+          <button id="backupButton" class="menu-action" type="button">バックアップ（JSON）</button>
+        </div>
+      </details>
     </section>
   </div>
 
