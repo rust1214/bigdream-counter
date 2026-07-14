@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
+  <meta name="theme-color" content="#0d1016">
+  <title>玉いじりT</title>
+  <link rel="stylesheet" href="style.css?v=1">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">BIG DREAM TRACKER</p>
+        <h1>現在 <span id="countValue">0</span>球</h1>
+      </div>
+      <button id="menuButton" class="icon-btn" type="button" aria-label="メニュー">☰</button>
+    </header>
+
+    <section class="status-card">
+      <div>
+        <span class="label">直前の記録</span>
+        <strong id="lastRecord">まだありません</strong>
+      </div>
+      <button id="undoButton" class="small-btn" type="button">1つ戻す</button>
+    </section>
+
+    <section class="ball-section" aria-labelledby="ballHeading">
+      <h2 id="ballHeading">落ちた玉の色を押す</h2>
+      <div class="ball-grid">
+        <button class="ball-button blue" type="button" data-color="青" aria-label="青玉を記録"><span></span><b>青</b></button>
+        <button class="ball-button green" type="button" data-color="緑" aria-label="緑玉を記録"><span></span><b>緑</b></button>
+        <button class="ball-button red" type="button" data-color="赤" aria-label="赤玉を記録"><span></span><b>赤</b></button>
+        <button class="ball-button gold" type="button" data-color="金" aria-label="金玉を記録"><span></span><b>金</b></button>
+      </div>
+      <p class="hint">色を押すと球数＋1・色記録。続けて突破段階を選べます。</p>
+    </section>
+
+    <section class="quick-actions">
+      <button id="voiceButton" class="action-btn voice" type="button">🎙 ボイス記録</button>
+      <button id="historyButton" class="action-btn" type="button">履歴を見る</button>
+    </section>
+
+    <footer>玉いじりT</footer>
+  </main>
+
+  <div id="stageOverlay" class="overlay" hidden>
+    <section class="sheet" role="dialog" aria-modal="true" aria-labelledby="stageTitle">
+      <div class="sheet-head"><h2 id="stageTitle">突破結果</h2><button class="close-btn" data-close="stageOverlay">×</button></div>
+      <p id="stageBallSummary" class="sheet-summary"></p>
+      <div class="stage-grid">
+        <button data-stage="失敗">失敗</button>
+        <button data-stage="1段階突破">1段階突破</button>
+        <button data-stage="2段階突破">2段階突破</button>
+        <button class="final" data-stage="最終突破">最終突破</button>
+      </div>
+      <button id="stageLaterButton" class="ghost-btn" type="button">あとで記録</button>
+    </section>
+  </div>
+
+  <div id="voiceOverlay" class="overlay" hidden>
+    <section class="sheet tall" role="dialog" aria-modal="true" aria-labelledby="voiceTitle">
+      <div class="sheet-head"><h2 id="voiceTitle">ボイス記録</h2><button class="close-btn" data-close="voiceOverlay">×</button></div>
+      <p class="sheet-summary">現在 <strong id="voiceCurrentCount">0</strong>球。示唆は保証ではありません。</p>
+      <div id="voiceList" class="voice-list"></div>
+    </section>
+  </div>
+
+  <div id="historyOverlay" class="overlay" hidden>
+    <section class="sheet tall" role="dialog" aria-modal="true" aria-labelledby="historyTitle">
+      <div class="sheet-head"><h2 id="historyTitle">実戦履歴</h2><button class="close-btn" data-close="historyOverlay">×</button></div>
+      <div id="historyList" class="history-list"></div>
+    </section>
+  </div>
+
+  <div id="menuOverlay" class="overlay" hidden>
+    <section class="sheet" role="dialog" aria-modal="true" aria-labelledby="menuTitle">
+      <div class="sheet-head"><h2 id="menuTitle">メニュー</h2><button class="close-btn" data-close="menuOverlay">×</button></div>
+      <button id="exportButton" class="menu-action" type="button">データを書き出す</button>
+      <button id="resetButton" class="menu-action danger" type="button">現在の実戦をリセット</button>
+    </section>
+  </div>
+
+  <div id="confirmOverlay" class="overlay" hidden>
+    <section class="confirm-card" role="alertdialog" aria-modal="true">
+      <h2>リセットしますか？</h2>
+      <p>球数と履歴をすべて0に戻します。</p>
+      <div class="confirm-actions">
+        <button id="cancelResetButton" class="ghost-btn" type="button">キャンセル</button>
+        <button id="confirmResetButton" class="danger-btn" type="button">リセットする</button>
+      </div>
+    </section>
+  </div>
+
+  <script src="app.js?v=1"></script>
+</body>
+</html>
