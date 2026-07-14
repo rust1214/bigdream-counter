@@ -1,0 +1,60 @@
+@import url("../tamaijiri-t/style.css?v=4");
+
+.menu-action.primary {
+  display: grid;
+  gap: 4px;
+  text-align: left;
+  padding: 14px 16px;
+  background: #f5c451;
+  color: #211800;
+  border: 2px solid #ffd96f;
+  box-shadow: 0 8px 20px rgba(245, 196, 81, 0.28);
+  opacity: 1;
+  -webkit-appearance: none;
+  appearance: none;
+  touch-action: manipulation;
+}
+
+.menu-action.primary strong {
+  font-size: 17px;
+}
+
+.menu-action.primary span {
+  font-size: 12px;
+  font-weight: 600;
+  opacity: 0.78;
+}
+
+.menu-action.primary:active,
+.menu-action.secondary:active,
+.menu-action.danger:active {
+  transform: scale(0.97);
+}
+
+.advanced {
+  margin-top: 14px;
+  padding: 0 12px 12px;
+  border: 1px solid #d9dee7;
+  border-radius: 14px;
+  background: #f1f3f7;
+  color: #252a33;
+}
+
+.advanced summary {
+  padding: 14px 2px;
+  font-weight: 800;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.menu-action.secondary {
+  background: #ffffff;
+  color: #252a33;
+  border: 1px solid #cfd5df;
+  opacity: 1;
+  touch-action: manipulation;
+}
+
+button:disabled {
+  opacity: 0.38;
+}
