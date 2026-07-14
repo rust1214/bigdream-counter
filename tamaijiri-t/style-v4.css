@@ -1,0 +1,98 @@
+@import url("style.css?v=4");
+
+.menu-lead {
+  margin: 12px 0 4px;
+  color: #5c6370;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.menu-action {
+  position: relative;
+  min-height: 58px;
+  border: 2px solid transparent;
+  background: #202735;
+  color: #ffffff;
+  box-shadow: 0 6px 16px rgba(16, 24, 40, 0.18);
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+  transition: transform 0.08s ease, filter 0.08s ease, box-shadow 0.08s ease;
+}
+
+.menu-action.primary {
+  background: #efb92f;
+  color: #211800;
+  border-color: #d9a51c;
+  font-size: 17px;
+}
+
+.menu-action:active {
+  transform: scale(0.975);
+  filter: brightness(0.9);
+  box-shadow: 0 2px 7px rgba(16, 24, 40, 0.18);
+}
+
+.menu-action:focus-visible {
+  outline: 3px solid #3578e5;
+  outline-offset: 2px;
+}
+
+.menu-action.danger {
+  background: #fff0f0;
+  color: #9f2525;
+  border-color: #f4caca;
+  box-shadow: none;
+}
+
+.advanced-tools {
+  margin-top: 14px;
+  border: 1px solid #d8dde6;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #f1f3f7;
+}
+
+.advanced-tools summary {
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+  color: #4f5765;
+  font-weight: 800;
+  cursor: pointer;
+  list-style: none;
+  touch-action: manipulation;
+}
+
+.advanced-tools summary::-webkit-details-marker {
+  display: none;
+}
+
+.advanced-tools summary::after {
+  content: "＋";
+  margin-left: auto;
+  font-size: 19px;
+}
+
+.advanced-tools[open] summary::after {
+  content: "−";
+}
+
+.advanced-content {
+  padding: 0 12px 12px;
+}
+
+.advanced-content .menu-action {
+  min-height: 50px;
+  background: #ffffff;
+  color: #303642;
+  border-color: #d6dbe4;
+  box-shadow: none;
+  font-size: 14px;
+}
+
+button:disabled {
+  opacity: 0.42;
+  cursor: default;
+}
