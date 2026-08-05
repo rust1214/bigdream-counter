@@ -3,19 +3,21 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <meta name="theme-color" content="#0a0a0c">
   <meta name="color-scheme" content="dark">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
   <title>てえんだ 無言メッセージボード</title>
-  <link rel="stylesheet" href="style.css?v=20260805-2">
+  <link rel="stylesheet" href="style-v3.css?v=20260805-3">
 </head>
 <body>
   <div id="app" class="app">
     <main id="picker" class="picker">
       <header class="topbar">
         <div class="brand"><h1>無言メッセージボード</h1><p>押した文を画面いっぱいに表示</p></div>
-        <button id="editToggle" class="quiet-button" type="button" aria-pressed="false">編集</button>
       </header>
       <div class="notice"><span aria-hidden="true">🔇</span><span><strong>声が出ない時用</strong>・文字は自動で画面内に収めます</span></div>
       <button id="instantButton" class="instant-button" type="button">自由メッセージを一回だけ表示<small>登録・保存はしません</small></button>
@@ -27,6 +29,7 @@
       </nav>
       <section id="messageGrid" class="message-grid" aria-live="polite"></section>
       <button id="addButton" class="add-button" type="button">＋ 自分のセリフを追加</button>
+      <button id="manageButton" class="manage-button" type="button" aria-pressed="false" hidden>登録したセリフを管理</button>
     </main>
 
     <section id="display" class="display" hidden aria-label="メッセージ表示画面" data-effect="none">
@@ -46,7 +49,7 @@
       </form>
     </div>
   </div>
-  <script src="defaults.js?v=20260805-2"></script>
-  <script src="app.js?v=20260805-2"></script>
+  <script src="defaults.js?v=20260805-3"></script>
+  <script src="app-v3.js?v=20260805-3"></script>
 </body>
 </html>
